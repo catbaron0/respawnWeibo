@@ -18,7 +18,6 @@
 ```
 python3 cache.py -cid containerID
 ```
-其中 `CID` 为刚才输出的 `containerID` 。
 
 执行之后微博会被下载到 cached 路径下，每一页(10条微博)缓存为一个json文件。
 
