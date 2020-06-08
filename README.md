@@ -8,10 +8,10 @@
     PASSWD="password"
     ```
 2. 执行
-```
-python3 user_info.py
-```
-脚本会生成`sender.sess`，并会输出`containerID` 和 `uid`
+    ```
+    python3 user_info.py
+    ```
+    脚本会生成`sender.sess`，并会输出`containerID` 和 `uid`
 
 ### 备份微博
 执行
@@ -25,14 +25,14 @@ python3 cache.py -cid containerID
 ### 克隆微博
 1. 将`config.py`中的用户名和密码更新为目标账号
 2. 执行
-```
-python3 user_info.py
-```
+    ```
+    python3 user_info.py
+    ```
 3. 执行
-```
-python3 respawn.py -f cached/8.txt  -u uid -c 9
-```
-就会自动将缓存到`8.txt`中的微博发布到`config.py`中设置的微博账号中。
+    ```
+    python3 respawn.py -f cached/8.txt  -u uid -c 9
+    ```
+    就会自动将缓存到`8.txt`中的微博发布到`config.py`中设置的微博账号中。
 
 对于转发的微博，会优先转发原微博；如果转发失败，则会尝试按照原创微博
 的方式将原微博内容一起发布。
