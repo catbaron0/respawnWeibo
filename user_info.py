@@ -1,18 +1,28 @@
 import pickle
 
 from weibo.weibo_login import wblogin
-import requests
+from urllib.parse import unquote
+from config import SUB
 
 session, uid = wblogin()
+session.headers['cookie'] = f'SUB={SUB}'
 print('uid: ', uid)
 with open('sender.sess', 'wb') as f:
     pickle.dump(session, f)
+# try:
+#     import ipdb
+#     ipdb.set_trace()
+#     cookie = session.cookies._cookies['.weibo.cn']['/']['M_WEIBOCN_PARAMS']
+#     value = unquote(cookie.value)
+#     container_id = value.split('fid=')[1].split('&')[0]
+# except Exception:
+#     container_id = f'107603{uid}'
+
 
 url = f'https://m.weibo.cn/api/container/getIndex?type=uid&value={uid}'
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
-    'Cookie': 'SUB=_2A25x_0VVDeThGedG7FIV9y7PzTuIHXVTAGsdrDV6PUJbkdBeLRPVkW1NUQF4CZzf9Ag0epchJ3CKIyoECMa-sjxZ; SUHB=0id65Rgflywwyy; SCF=Au88ZuxBjIpPpu9Z_OekNKo8NHl5jHEV56ypSRFYm5rg-HLvEzRxi42k61i5Zf9iMJX14hC-Uq-TSK0bsR2zcvg.; SSOLoginState=1559966981; MLOGIN=1; _T_WM=34435402017; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D1076031870470367; WEIBOCN_FROM=1110106030'
-}
-json_data = requests.get(url, headers=headers)
-container_id = json_data.json()['data']['tabsInfo']['tabs'][1]['containerid']
+try:
+    json_data = session.get(url)
+    container_id = json_data.json()['data']['tabsInfo']['tabs'][1]['containerid']
+except Exception:
+    container_id = f'107603{uid}'
 print('containerID: ', container_id)
